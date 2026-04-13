@@ -24,3 +24,25 @@ Build a defensible MVP that can be demonstrated in class, deployed on an Ubuntu 
 - SQLite persistence
 - Seeded demo data
 - ERD and seminar materials
+
+## Quick Start
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+.venv/bin/python -m scripts.seed_demo
+.venv/bin/python -m apps.web_app
+```
+
+Open `http://127.0.0.1:5000`.
+
+## Default Admin
+
+- Email: `admin@library.local`
+- Password: `admin123`
+
+## Run Tests
+
+```bash
+.venv/bin/python -m unittest discover -s tests -v
+```
