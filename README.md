@@ -46,3 +46,12 @@ Open `http://127.0.0.1:5000`.
 ```bash
 .venv/bin/python -m unittest discover -s tests -v
 ```
+
+## Seminar Docs
+
+- Architecture overview: `docs/architecture/overview.md`
+- Diagrams: `docs/architecture/diagrams.md`
+- ERD: `docs/erd/library-system-erd.md`
+- Ubuntu VM deployment guide: `docs/seminar/ubuntu-vm-deployment.md`
+- Presentation outline: `docs/seminar/presentation-outline.md`
+- Speaker notes: `docs/seminar/speaker-notes.md`
