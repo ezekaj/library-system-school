@@ -15,10 +15,17 @@ def create_book(
     description: str,
     total_copies: int,
 ) -> Book:
+    normalized_title = title.strip()
+    normalized_author = author.strip()
+    if not normalized_title:
+        raise ValueError("Book title is required.")
+    if not normalized_author:
+        raise ValueError("Author name is required.")
+
     normalized_total = max(1, total_copies)
     book = Book(
-        title=title.strip(),
-        author=author.strip(),
+        title=normalized_title,
+        author=normalized_author,
         description=description.strip(),
         total_copies=normalized_total,
         available_copies=normalized_total,

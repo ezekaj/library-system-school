@@ -12,6 +12,10 @@ from services.circulation_service.repository import add_loan, get_loan_by_id, li
 
 
 def issue_book(session: Session, book_id: int, borrower_name: str, issued_by_user_id: int) -> Loan:
+    normalized_borrower = borrower_name.strip()
+    if not normalized_borrower:
+        raise ValueError("Borrower name is required.")
+
     book = get_book_by_id(session, book_id)
     if book is None:
         raise ValueError("Selected book does not exist.")
@@ -20,7 +24,7 @@ def issue_book(session: Session, book_id: int, borrower_name: str, issued_by_use
 
     loan = Loan(
         book_id=book.id,
-        borrower_name=borrower_name.strip(),
+        borrower_name=normalized_borrower,
         issued_by_user_id=issued_by_user_id,
     )
     book.available_copies -= 1

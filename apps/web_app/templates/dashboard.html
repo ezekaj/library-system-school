@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Library Management System</p>
+      <h1>Dashboard</h1>
+    </div>
+
+    <div class="topbar-actions">
+      <span class="user-pill">{{ user.name }}</span>
+      <form method="post" action="{{ url_for('web.logout') }}">
+        <button type="submit" class="secondary-button">Logout</button>
+      </form>
+    </div>
+  </header>
+
+  <main class="dashboard-grid">
+    <section class="panel panel-wide">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Catalog</p>
+          <h2>Available Books</h2>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Total</th>
+              <th>Available</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for book in books %}
+              <tr>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.total_copies }}</td>
+                <td>{{ book.available_copies }}</td>
+              </tr>
+            {% else %}
+              <tr>
+                <td colspan="4">No books added yet.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="eyebrow">Catalog Service</p>
+      <h2>Add Book</h2>
+
+      <form method="post" action="{{ url_for('web.add_book') }}" class="stack-form">
+        <label>
+          <span>Title</span>
+          <input type="text" name="title" required>
+        </label>
+
+        <label>
+          <span>Author</span>
+          <input type="text" name="author" required>
+        </label>
+
+        <label>
+          <span>Description</span>
+          <textarea name="description" rows="4"></textarea>
+        </label>
+
+        <label>
+          <span>Total Copies</span>
+          <input type="number" name="total_copies" min="1" value="1" required>
+        </label>
+
+        <button type="submit">Add Book</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <p class="eyebrow">Circulation Service</p>
+      <h2>Issue Book</h2>
+
+      <form method="post" action="{{ url_for('web.create_loan') }}" class="stack-form">
+        <label>
+          <span>Borrower Name</span>
+          <input type="text" name="borrower_name" required>
+        </label>
+
+        <label>
+          <span>Select Book</span>
+          <select name="book_id" required>
+            {% for book in books %}
+              <option value="{{ book.id }}">{{ book.title }} by {{ book.author }} ({{ book.available_copies }} available)</option>
+            {% endfor %}
+          </select>
+        </label>
+
+        <button type="submit">Issue Book</button>
+      </form>
+    </section>
+
+    <section class="panel panel-wide">
+      <p class="eyebrow">Circulation Service</p>
+      <h2>Open Loans</h2>
+
+      <div class="loan-list">
+        {% for loan in loan_rows %}
+          <article class="loan-card">
+            <div>
+              <h3>{{ loan.book_title }}</h3>
+              <p>Borrower: {{ loan.borrower_name }}</p>
+              <p>Issued: {{ loan.issued_at.strftime("%Y-%m-%d %H:%M") }}</p>
+            </div>
+
+            <form method="post" action="{{ url_for('web.complete_return', loan_id=loan.id) }}">
+              <button type="submit" class="secondary-button">Return Book</button>
+            </form>
+          </article>
+        {% else %}
+          <p class="empty-state">No open loans yet.</p>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+{% endblock %}

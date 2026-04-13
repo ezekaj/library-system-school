@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Login{% endblock %}
+
+{% block content %}
+  <main class="auth-layout">
+    <section class="auth-card">
+      <p class="eyebrow">Library System School</p>
+      <h1>Admin Login</h1>
+      <p class="subtitle">Sign in to manage books, issue loans, and prepare the seminar demo.</p>
+
+      <form method="post" class="stack-form">
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" placeholder="admin@library.local" required>
+        </label>
+
+        <label>
+          <span>Password</span>
+          <input type="password" name="password" placeholder="admin123" required>
+        </label>
+
+        <button type="submit">Sign In</button>
+      </form>
+    </section>
+  </main>
+{% endblock %}
