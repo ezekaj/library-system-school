@@ -6,25 +6,25 @@ Keep the system small enough to finish for school, but structured enough to just
 
 ## Service Boundaries
 
-### `apps/web-app`
+### `apps/web_app`
 
 - Renders HTML pages with Flask and Jinja
 - Handles form submissions from the browser
 - Calls service-layer functions instead of placing business logic in routes
 
-### `services/auth-service`
+### `services/auth_service`
 
 - Manages admin users
 - Handles password hashing and login verification
 - Owns authentication-related queries
 
-### `services/catalog-service`
+### `services/catalog_service`
 
 - Manages book records
 - Creates, lists, and validates books
 - Owns catalog-related queries
 
-### `services/circulation-service`
+### `services/circulation_service`
 
 - Handles issue and return workflows
 - Tracks copy availability

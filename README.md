@@ -8,10 +8,10 @@ Build a defensible MVP that can be demonstrated in class, deployed on an Ubuntu 
 
 ## Planned Architecture
 
-- `apps/web-app`: Flask UI and presentation layer
-- `services/auth-service`: admin authentication and user records
-- `services/catalog-service`: book catalog management
-- `services/circulation-service`: issue and return flows
+- `apps/web_app`: Flask UI and presentation layer
+- `services/auth_service`: admin authentication and user records
+- `services/catalog_service`: book catalog management
+- `services/circulation_service`: issue and return flows
 - `shared/`: shared config, contracts, database helpers, and utility functions
 
 ## MVP Features
