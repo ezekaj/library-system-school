@@ -8,6 +8,7 @@ from sqlalchemy import DateTime, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from shared.database import Base
+from shared.time import utc_now
 
 
 class Book(Base):
@@ -21,4 +22,4 @@ class Book(Base):
     description: Mapped[str] = mapped_column(Text, default="", nullable=False)
     total_copies: Mapped[int] = mapped_column(Integer, default=1, nullable=False)
     available_copies: Mapped[int] = mapped_column(Integer, default=1, nullable=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now, nullable=False)

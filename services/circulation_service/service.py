@@ -2,13 +2,12 @@
 
 from __future__ import annotations
 
-from datetime import datetime
-
 from sqlalchemy.orm import Session
 
 from services.catalog_service.repository import get_book_by_id
 from services.circulation_service.models import Loan
 from services.circulation_service.repository import add_loan, get_loan_by_id, list_active_loans, save_changes
+from shared.time import utc_now
 
 
 def issue_book(session: Session, book_id: int, borrower_name: str, issued_by_user_id: int) -> Loan:
@@ -42,7 +41,7 @@ def return_book(session: Session, loan_id: int) -> Loan:
     if book is None:
         raise ValueError("Book record is missing.")
 
-    loan.returned_at = datetime.utcnow()
+    loan.returned_at = utc_now()
     book.available_copies += 1
     save_changes(session)
     return loan
