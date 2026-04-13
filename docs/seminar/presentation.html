@@ -3,313 +3,548 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Management System - Seminar Presentation</title>
+    <title>Library Management System — Seminar</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/theme/white.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/theme/black.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
         :root {
-            --r-main-font-size: 28px;
-            --r-heading-font-size: 48px;
-            --r-heading1-font-size: 64px;
+            --r-background-color: #0d1117;
+            --r-main-font: 'Inter', sans-serif;
+            --r-heading-font: 'Inter', sans-serif;
+            --r-code-font: 'JetBrains Mono', monospace;
+            --r-main-font-size: 26px;
+            --r-heading1-size: 58px;
+            --r-heading2-size: 42px;
+            --r-heading3-size: 32px;
+            --r-heading-color: #58a6ff;
         }
-        
-        .reveal h1 { font-size: 2.2em; }
-        .reveal h2 { font-size: 1.6em; }
-        .reveal h3 { font-size: 1.3em; }
-        
+
+        .reveal { background: linear-gradient(135deg, #0d1117 0%, #161b22 100%); }
+        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; letter-spacing: -0.02em; }
+        .reveal h1 { font-size: 1.8em; font-weight: 700; margin-bottom: 0.2em; }
+        .reveal h2 { font-size: 1.4em; font-weight: 600; color: #58a6ff; }
+        .reveal h3 { font-size: 1.1em; font-weight: 500; color: #8b949e; }
+
+        .reveal .slides { text-align: left; }
+        .reveal .slides section { padding: 20px 40px; }
+        .reveal .slides section.center { text-align: center; }
+
+        /* Tables */
         .reveal table {
-            font-size: 0.6em;
+            font-size: 0.55em;
             border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            border-radius: 8px;
+            overflow: hidden;
         }
-        
-        .reveal table th, .reveal table td {
-            padding: 12px;
-            border: 1px solid #333;
+        .reveal table thead th {
+            background: #1f2937;
+            color: #58a6ff;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 14px 20px;
+            border-bottom: 2px solid #58a6ff;
         }
-        
-        .reveal table th {
-            background: #f4f4f4;
+        .reveal table tbody td {
+            padding: 12px 20px;
+            border-bottom: 1px solid #21262d;
+            background: #0d1117;
+        }
+        .reveal table tbody tr:last-child td { border-bottom: none; }
+        .reveal table code {
+            font-size: 0.9em;
+            background: #1f2937;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: #f78166;
+        }
+
+        /* Lists */
+        .reveal ul { font-size: 0.75em; margin-left: 20px; }
+        .reveal ul li { margin-bottom: 14px; line-height: 1.5; }
+        .reveal ul.check-list { list-style: none; margin-left: 0; }
+        .reveal ul.check-list li { padding-left: 32px; position: relative; }
+        .reveal ul.check-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #3fb950;
             font-weight: bold;
+            font-size: 1.1em;
         }
-        
+
+        /* Code blocks */
         .reveal pre {
             font-size: 0.5em;
             box-shadow: none;
-        }
-        
-        .reveal code {
-            font-size: 0.8em;
-        }
-        
-        .reveal ul {
-            font-size: 0.8em;
-        }
-        
-        .reveal ul li {
-            margin-bottom: 12px;
-        }
-        
-        .diagram {
-            font-family: monospace;
-            font-size: 0.5em;
-            background: #f8f8f8;
-            padding: 20px;
+            background: #161b22;
+            border: 1px solid #30363d;
             border-radius: 8px;
-            line-height: 1.4;
+            margin: 15px 0;
         }
-        
-        .checkmark {
-            color: #2ecc71;
-            font-weight: bold;
+        .reveal pre code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
+            line-height: 1.6;
+            padding: 16px 20px;
+            max-height: 400px;
         }
-        
-        .subtitle {
-            font-size: 0.7em;
-            color: #666;
+        .reveal code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8em;
+            background: #1f2937;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: #f78166;
+        }
+
+        /* Diagrams */
+        .diagram-box {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.45em;
+            line-height: 1.5;
+            color: #c9d1d9;
+            overflow-x: auto;
+        }
+
+        /* Videos */
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
             margin-top: 20px;
         }
-        
-        video {
-            max-width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        
-        .video-container {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .video-box {
-            flex: 1;
+        .video-item {
             text-align: center;
         }
-        
-        .video-box p {
-            font-size: 0.5em;
-            margin-top: 10px;
-            color: #666;
+        .video-item video {
+            width: 100%;
+            max-height: 320px;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         }
+        .video-item p {
+            font-size: 0.5em;
+            color: #8b949e;
+            margin-top: 10px;
+        }
+        .video-item p strong { color: #c9d1d9; }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.6em;
+            font-weight: 600;
+            margin: 4px;
+        }
+        .badge-blue { background: #1f3a5f; color: #58a6ff; border: 1px solid #58a6ff; }
+        .badge-green { background: #1a3d2e; color: #3fb950; border: 1px solid #3fb950; }
+        .badge-orange { background: #3d2e1a; color: #d29922; border: 1px solid #d29922; }
+        .badge-red { background: #3d1a1a; color: #f85149; border: 1px solid #f85149; }
+
+        /* Architecture boxes */
+        .arch-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            margin: 20px 0;
+        }
+        .arch-box {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 0.55em;
+            font-weight: 600;
+            text-align: center;
+            min-width: 200px;
+        }
+        .arch-box-browser { background: #1f3a5f; color: #58a6ff; border: 1px solid #58a6ff; }
+        .arch-box-app { background: #2d1f5f; color: #bc8cff; border: 1px solid #bc8cff; }
+        .arch-box-services { display: flex; gap: 10px; justify-content: center; }
+        .arch-box-svc { background: #1a3d2e; color: #3fb950; border: 1px solid #3fb950; padding: 10px 16px; border-radius: 8px; font-size: 0.5em; font-weight: 600; }
+        .arch-box-db { background: #3d2e1a; color: #d29922; border: 1px solid #d29922; }
+        .arch-arrow { font-size: 0.6em; color: #484f58; }
+
+        /* Slide number */
+        .reveal .slide-number {
+            background: #161b22;
+            color: #8b949e;
+            font-size: 0.4em;
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid #30363d;
+        }
+
+        /* Progress bar */
+        .reveal .progress { color: #58a6ff; height: 4px; }
+
+        /* Subtitle */
+        .subtitle {
+            font-size: 0.65em;
+            color: #8b949e;
+            margin-top: 15px;
+        }
+
+        /* Goal box */
+        .goal-box {
+            background: #161b22;
+            border-left: 4px solid #58a6ff;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.65em;
+            margin-top: 25px;
+            color: #c9d1d9;
+        }
+
+        /* DB schema */
+        .db-schema {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .db-table {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .db-table-header {
+            background: #1f2937;
+            color: #58a6ff;
+            font-weight: 600;
+            font-size: 0.55em;
+            padding: 10px 14px;
+            border-bottom: 1px solid #30363d;
+        }
+        .db-table-body {
+            padding: 10px 14px;
+            font-size: 0.45em;
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.8;
+            color: #c9d1d9;
+        }
+        .db-table-body .pk { color: #f78166; }
+        .db-table-body .fk { color: #d29922; }
+        .db-table-body .req { color: #8b949e; }
+
+        /* Highlight text */
+        .highlight { color: #58a6ff; font-weight: 600; }
+        .highlight-green { color: #3fb950; font-weight: 600; }
+        .highlight-orange { color: #d29922; font-weight: 600; }
+        .highlight-red { color: #f85149; font-weight: 600; }
     </style>
 </head>
 <body>
     <div class="reveal">
         <div class="slides">
-            
-            <!-- Slide 1: Title -->
-            <section>
-                <h1>Library Management System</h1>
-                <h3>Using Flask, SQLite, and Ubuntu VM</h3>
+
+            <!-- SLIDE 1: Title -->
+            <section class="center">
+                <h1 style="font-size: 2em;">Library Management System</h1>
+                <h3>Flask · SQLite · Ubuntu VM</h3>
                 <p class="subtitle">School Seminar Presentation</p>
+                <div style="margin-top: 40px;">
+                    <span class="badge badge-blue">Python</span>
+                    <span class="badge badge-green">Flask</span>
+                    <span class="badge badge-orange">SQLite</span>
+                    <span class="badge badge-red">VirtualBox</span>
+                </div>
             </section>
-            
-            <!-- Slide 2: Problem Statement -->
+
+            <!-- SLIDE 2: Problem Statement -->
             <section>
                 <h2>The Problem</h2>
                 <ul>
-                    <li>Manual book tracking is slow and error-prone</li>
-                    <li>Libraries need a simple way to manage books and loans</li>
-                    <li>Existing systems are often too complex for small libraries</li>
+                    <li>School libraries still use <span class="highlight">paper-based or spreadsheet tracking</span> for books and loans</li>
+                    <li>Manual processes are <span class="highlight-red">slow, error-prone, and don't scale</span></li>
+                    <li>Commercial library systems are <span class="highlight-orange">over-engineered</span> for small institutions</li>
                 </ul>
-                <p style="margin-top: 30px;"><strong>Goal:</strong> Create a minimal, practical digital system for library administration</p>
-            </section>
-            
-            <!-- Slide 3: Technologies Used -->
-            <section>
-                <h2>Tech Stack</h2>
-                <table>
-                    <tr>
-                        <th>Layer</th>
-                        <th>Technology</th>
-                    </tr>
-                    <tr>
-                        <td>Language</td>
-                        <td>Python 3</td>
-                    </tr>
-                    <tr>
-                        <td>Framework</td>
-                        <td>Flask</td>
-                    </tr>
-                    <tr>
-                        <td>Templates</td>
-                        <td>Jinja2</td>
-                    </tr>
-                    <tr>
-                        <td>Database</td>
-                        <td>SQLite</td>
-                    </tr>
-                    <tr>
-                        <td>Deployment</td>
-                        <td>VirtualBox + Ubuntu</td>
-                    </tr>
-                </table>
-            </section>
-            
-            <!-- Slide 4: Modular Service Structure -->
-            <section>
-                <h2>Modular Architecture</h2>
-                <p style="font-size: 0.7em; color: #e74c3c; font-weight: bold;">Not Microservices — Modular Monolith</p>
-                <pre><code class="language-text">
-├── auth_service/          # Admin login & authentication
-├── catalog_service/       # Book management
-├── circulation_service/   # Issue & return flows
-└── web_app/               # UI & request handling
-                </code></pre>
-                <p style="font-size: 0.6em; margin-top: 20px;"><strong>Key Point:</strong> All modules run in <em>one Flask deployment</em> — keeps the project simple and practical for demonstration</p>
-            </section>
-            
-            <!-- Slide 5: System Architecture -->
-            <section>
-                <h2>System Architecture</h2>
-                <div class="diagram">
-┌─────────────┐
-│   Browser   │
-└──────┬──────┘
-       │
-       ▼
-┌─────────────────────────┐
-│    Flask Web App        │
-│  (Thin request layer)   │
-└───┬──────┬──────┬───────┘
-    │      │      │
-    ▼      ▼      ▼
-┌──────┐┌─────┐┌────────────┐
-│ Auth ││Catalog││Circulation │
-│Service││Service││ Service    │
-└──┬───┘└──┬──┘└─────┬──────┘
-   │       │         │
-   └───────┴─────────┘
-           │
-           ▼
-    ┌─────────────┐
-    │   SQLite    │
-    │  Database   │
-    └─────────────┘
+                <div class="goal-box">
+                    <strong style="color: #58a6ff;">Goal:</strong> Build a minimal, defensible MVP — a working web application that can manage a book catalog, issue and return loans, and be deployed inside a single Ubuntu VM for demonstration.
                 </div>
             </section>
-            
-            <!-- Slide 6: Database Design -->
+
+            <!-- SLIDE 3: Technologies -->
+            <section>
+                <h2>Technology Stack</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Layer</th>
+                            <th>Technology</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Language</strong></td>
+                            <td>Python 3</td>
+                            <td>Implementation language</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Framework</strong></td>
+                            <td>Flask 3.1</td>
+                            <td>HTTP routing, request handling</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ORM</strong></td>
+                            <td>SQLAlchemy 2.0</td>
+                            <td>Database models and queries</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Templates</strong></td>
+                            <td>Jinja2</td>
+                            <td>Server-side HTML rendering</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Database</strong></td>
+                            <td>SQLite</td>
+                            <td>Lightweight, zero-config persistence</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Deployment</strong></td>
+                            <td>VirtualBox + Ubuntu</td>
+                            <td>Isolated, reproducible environment</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- SLIDE 4: Modular Architecture -->
+            <section>
+                <h2>Modular Service Structure</h2>
+                <p style="font-size: 0.65em; margin-bottom: 20px;">
+                    <span class="highlight-red">Not microservices.</span> A <span class="highlight">modular monolith</span> — separate Python packages, one Flask process.
+                </p>
+                <pre><code class="language-text">library-system-school/
+├── apps/
+│   └── web_app/              ← Flask UI, routes, templates
+├── services/
+│   ├── auth_service/         ← admin login, session management
+│   ├── catalog_service/      ← book CRUD, inventory tracking
+│   └── circulation_service/  ← issue / return transaction logic
+├── shared/                   ← DB config, contracts, utilities
+└── scripts/                  ← seed_demo, bootstrap_ubuntu</code></pre>
+                <p style="font-size: 0.55em; color: #8b949e; margin-top: 15px;">
+                    Each service is a narrow Python package. All run in-process, keeping deployment simple.
+                </p>
+            </section>
+
+            <!-- SLIDE 5: System Architecture -->
+            <section>
+                <h2>System Architecture</h2>
+                <div class="arch-flow">
+                    <div class="arch-box arch-box-browser">🖥 Browser (Student / Admin)</div>
+                    <div class="arch-arrow">▼ HTTP / HTTPS</div>
+                    <div class="arch-box arch-box-app">🐍 Flask Web App<br><span style="font-weight: 400; font-size: 0.85em;">Routes · Jinja Templates · Sessions</span></div>
+                    <div class="arch-arrow">▼ in-process calls</div>
+                    <div class="arch-box-services">
+                        <div class="arch-box-svc">🔐 Auth<br>Service</div>
+                        <div class="arch-box-svc">📚 Catalog<br>Service</div>
+                        <div class="arch-box-svc">🔄 Circulation<br>Service</div>
+                    </div>
+                    <div class="arch-arrow">▼ SQLAlchemy ORM</div>
+                    <div class="arch-box arch-box-db">🗄 SQLite Database<br><span style="font-weight: 400; font-size: 0.85em;">users · books · loans</span></div>
+                </div>
+            </section>
+
+            <!-- SLIDE 6: Database Design -->
             <section>
                 <h2>Database Design</h2>
-                <p style="font-size: 0.8em;">Three Core Tables:</p>
-                <ul style="font-size: 0.7em;">
-                    <li><strong>users</strong> — Admin accounts for system access</li>
-                    <li><strong>books</strong> — Title, author, ISBN, total copies, available copies</li>
-                    <li><strong>loans</strong> — Tracks issued and returned books with borrower info</li>
-                </ul>
-                <pre style="font-size: 0.45em;"><code class="language-text">
-users ──┐
-        │
-books ──┼── loans
-        │
-        └── (relationships via foreign keys)
-                </code></pre>
-                <p style="font-size: 0.5em; color: #666;">See <code>docs/erd/library-system-erd.md</code> for full ERD</p>
+                <div class="db-schema">
+                    <div class="db-table">
+                        <div class="db-table-header">🔐 users</div>
+                        <div class="db-table-body">
+                            <span class="pk">id</span> INTEGER PK<br>
+                            name VARCHAR <span class="req">NN</span><br>
+                            email VARCHAR <span class="req">NN</span><br>
+                            password_hash VARCHAR <span class="req">NN</span><br>
+                            is_admin BOOLEAN <span class="req">NN</span><br>
+                            created_at DATETIME <span class="req">NN</span>
+                        </div>
+                    </div>
+                    <div class="db-table">
+                        <div class="db-table-header">📚 books</div>
+                        <div class="db-table-body">
+                            <span class="pk">id</span> INTEGER PK<br>
+                            title VARCHAR <span class="req">NN</span><br>
+                            author VARCHAR <span class="req">NN</span><br>
+                            description TEXT <span class="req">NN</span><br>
+                            total_copies INTEGER <span class="req">NN</span><br>
+                            available_copies INTEGER <span class="req">NN</span><br>
+                            created_at DATETIME <span class="req">NN</span>
+                        </div>
+                    </div>
+                    <div class="db-table">
+                        <div class="db-table-header">🔄 loans</div>
+                        <div class="db-table-body">
+                            <span class="pk">id</span> INTEGER PK<br>
+                            <span class="fk">book_id</span> INTEGER FK<br>
+                            borrower_name VARCHAR <span class="req">NN</span><br>
+                            <span class="fk">issued_by_user_id</span> INT FK<br>
+                            issued_at DATETIME <span class="req">NN</span><br>
+                            returned_at DATETIME
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 18px; font-size: 0.5em; color: #8b949e;">
+                    <span style="color: #f78166;">■ PK</span>&nbsp;&nbsp;
+                    <span style="color: #d29922;">■ FK</span>&nbsp;&nbsp;
+                    <span style="color: #8b949e;">■ NN = NOT NULL</span>
+                    &nbsp;&nbsp;&nbsp;→ <code>users ||--o{ loans</code> &nbsp; <code>books ||--o{ loans</code>
+                </div>
             </section>
-            
-            <!-- Slide 7: Main Features -->
-            <section>
-                <h2>Main Features</h2>
-                <ul style="list-style: none;">
-                    <li><span class="checkmark">✓</span> <strong>Admin Login</strong> — Secure authentication</li>
-                    <li><span class="checkmark">✓</span> <strong>Add Books</strong> — Expand the catalog</li>
-                    <li><span class="checkmark">✓</span> <strong>View All Books</strong> — Browse with availability status</li>
-                    <li><span class="checkmark">✓</span> <strong>Issue a Book</strong> — Assign to borrower, auto-decrement inventory</li>
-                    <li><span class="checkmark">✓</span> <strong>Return a Book</strong> — Restore availability, update loan status</li>
-                </ul>
-            </section>
-            
-            <!-- Slide 8: Deployment -->
-            <section>
-                <h2>Ubuntu VM Deployment</h2>
-                <pre><code class="language-bash"># 1. Clone the repository
-git clone &lt;repo-url&gt;
 
-# 2. Set up virtual environment
+            <!-- SLIDE 7: Main Features -->
+            <section>
+                <h2>Features</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                    <div style="background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 18px;">
+                        <h3 style="margin-top: 0; font-size: 1em; color: #58a6ff;">🔐 Authentication</h3>
+                        <ul class="check-list" style="font-size: 0.65em;">
+                            <li>Admin login with email + password</li>
+                            <li>Session-based authentication</li>
+                            <li>Password hashing via Werkzeug</li>
+                        </ul>
+                    </div>
+                    <div style="background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 18px;">
+                        <h3 style="margin-top: 0; font-size: 1em; color: #3fb950;">📚 Catalog</h3>
+                        <ul class="check-list" style="font-size: 0.65em;">
+                            <li>View all books with availability</li>
+                            <li>Add new books to inventory</li>
+                            <li>Real-time copy count tracking</li>
+                        </ul>
+                    </div>
+                    <div style="background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 18px;">
+                        <h3 style="margin-top: 0; font-size: 1em; color: #d29922;">🔄 Circulation</h3>
+                        <ul class="check-list" style="font-size: 0.65em;">
+                            <li>Issue book to borrower by name</li>
+                            <li>Auto-decrement available copies</li>
+                            <li>Return restores inventory</li>
+                        </ul>
+                    </div>
+                    <div style="background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 18px;">
+                        <h3 style="margin-top: 0; font-size: 1em; color: #f78166;">⚙ Infrastructure</h3>
+                        <ul class="check-list" style="font-size: 0.65em;">
+                            <li>SQLite persistence</li>
+                            <li>Seedable demo data</li>
+                            <li>One-command bootstrap</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 8: Deployment -->
+            <section>
+                <h2>Deployment on Ubuntu VM</h2>
+                <pre><code class="language-bash"># Clone
+git clone https://github.com/ezekaj/library-system-school.git
+cd library-system-school
+
+# Environment
 python3 -m venv .venv
 source .venv/bin/activate
 
-# 3. Install dependencies
+# Install
 pip install -r requirements.txt
 
-# 4. Seed demo data
-python scripts/seed_data.py
+# Seed demo data
+python -m scripts.seed_demo
 
-# 5. Run the application
-flask run --host=0.0.0.0</code></pre>
-                <p style="font-size: 0.5em; margin-top: 15px;"><strong>One-step bootstrap:</strong> <code>scripts/bootstrap_ubuntu.sh</code></p>
+# Run
+python -m apps.web_app</code></pre>
+                <p style="font-size: 0.55em; color: #8b949e; margin-top: 10px;">
+                    <strong style="color: #3fb950;">Or one-step:</strong> <code>bash scripts/bootstrap_ubuntu.sh</code> — installs Python, creates venv, installs deps, seeds data.
+                </p>
+                <p style="font-size: 0.55em; margin-top: 8px;">
+                    <strong style="color: #58a6ff;">Default admin:</strong> <code>admin@library.local</code> / <code>admin123</code>
+                </p>
             </section>
-            
-            <!-- Slide 9: Demonstration -->
+
+            <!-- SLIDE 9: Demo -->
             <section>
                 <h2>Live Demonstration</h2>
-                <p style="font-size: 0.7em; margin-bottom: 20px;">Screen recordings captured from Ubuntu VM:</p>
-                <div class="video-container">
-                    <div class="video-box">
-                        <video controls>
+                <p style="font-size: 0.6em; color: #8b949e; margin-bottom: 15px;">Screen recordings from the Ubuntu VM (VirtualBox)</p>
+                <div class="video-grid">
+                    <div class="video-item">
+                        <video controls preload="metadata" poster="">
+                            <source src="demo-auth-catalog.mp4" type="video/mp4">
                             <source src="demo-auth-catalog.mov" type="video/quicktime">
-                            Your browser does not support the video tag.
+                            Video not supported.
                         </video>
-                        <p><strong>Video 1:</strong> Authentication & Catalog</p>
+                        <p><strong>Video 1:</strong> Login → View catalog → Add book</p>
                     </div>
-                    <div class="video-box">
-                        <video controls>
+                    <div class="video-item">
+                        <video controls preload="metadata" poster="">
+                            <source src="demo-circulation.mp4" type="video/mp4">
                             <source src="demo-circulation.mov" type="video/quicktime">
-                            Your browser does not support the video tag.
+                            Video not supported.
                         </video>
-                        <p><strong>Video 2:</strong> Circulation (Issue & Return)</p>
+                        <p><strong>Video 2:</strong> Issue book → Return → Inventory update</p>
                     </div>
                 </div>
             </section>
-            
-            <!-- Slide 10: Problems & Fixes -->
+
+            <!-- SLIDE 10: Problems & Fixes -->
             <section>
-                <h2>Challenges & Fixes</h2>
+                <h2>Problems & Fixes</h2>
                 <table>
-                    <tr>
-                        <th>Problem</th>
-                        <th>Fix</th>
-                    </tr>
-                    <tr>
-                        <td>Missing Python packages</td>
-                        <td>Installed via <code>requirements.txt</code></td>
-                    </tr>
-                    <tr>
-                        <td>Virtual environment setup on Ubuntu</td>
-                        <td>Used <code>python3-venv</code> package</td>
-                    </tr>
-                    <tr>
-                        <td>Incorrect static asset endpoint</td>
-                        <td>Fixed Flask routing for CSS/JS files</td>
-                    </tr>
-                    <tr>
-                        <td>Seed script usability</td>
-                        <td>Made it runnable standalone from CLI</td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th style="width: 45%;">Problem</th>
+                            <th style="width: 55%;">Root Cause & Fix</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>ModuleNotFoundError</code> on fresh Ubuntu VM</td>
+                            <td>System Python has no Flask or SQLAlchemy. Fixed by installing dependencies via <code>requirements.txt</code> inside a <code>venv</code>.</td>
+                        </tr>
+                        <tr>
+                            <td><code>python3-venv</code> package missing on Ubuntu</td>
+                            <td>Ubuntu ships Python without <code>venv</code> by default. Fixed with <code>sudo apt install python3-venv</code> in the bootstrap script.</td>
+                        </tr>
+                        <tr>
+                            <td>CSS and static assets not loading</td>
+                            <td>Flask <code>static_url_path</code> was misconfigured. Fixed by using Flask's default <code>/static</code> endpoint and correct folder layout.</td>
+                        </tr>
+                        <tr>
+                            <td>Seed script not importable from CLI</td>
+                            <td>Needed <code>if __name__ == "__main__"</code> guard and proper module-level imports. Made runnable as <code>python -m scripts.seed_demo</code>.</td>
+                        </tr>
+                    </tbody>
                 </table>
             </section>
-            
-            <!-- Slide 11: Conclusion -->
-            <section>
-                <h2>Summary</h2>
-                <ul style="list-style: none;">
-                    <li><span class="checkmark">✓</span> System works end-to-end</li>
-                    <li><span class="checkmark">✓</span> Modular architecture, easy to explain and extend</li>
-                    <li><span class="checkmark">✓</span> Simple enough to deploy inside a VM</li>
+
+            <!-- SLIDE 11: Conclusion -->
+            <section class="center">
+                <h2>Conclusion</h2>
+                <ul class="check-list" style="margin-top: 20px;">
+                    <li>The system runs <span class="highlight-green">end-to-end</span>: login → catalog → issue → return</li>
+                    <li>The <span class="highlight">modular structure</span> is easy to explain and extend in class</li>
+                    <li>Deployment fits inside a <span class="highlight-orange">single Ubuntu VM</span> — reproducible for any seminar</li>
                 </ul>
-                <h3 style="margin-top: 30px;">Future Improvements</h3>
-                <ul style="font-size: 0.7em;">
-                    <li>Student accounts and user roles</li>
-                    <li>Search and filtering</li>
-                    <li>Overdue tracking and notifications</li>
-                    <li>Email reminders</li>
-                </ul>
-                <h2 style="margin-top: 40px; color: #2ecc71;">Thank you!</h2>
-                <p style="font-size: 0.7em;">Questions?</p>
+                <h3 style="margin-top: 35px; font-size: 0.9em; color: #8b949e;">Future Improvements</h3>
+                <p style="font-size: 0.6em; color: #c9d1d9; margin-top: 10px;">
+                    Student accounts &nbsp;·&nbsp; Search & filtering &nbsp;·&nbsp; Overdue tracking &nbsp;·&nbsp; Email reminders &nbsp;·&nbsp; Barcode scanning
+                </p>
+                <h1 style="margin-top: 45px; color: #3fb950; font-size: 1.5em;">Thank you.</h1>
+                <p style="font-size: 0.65em; color: #8b949e;">Questions?</p>
             </section>
-            
+
         </div>
     </div>
 
@@ -319,8 +554,14 @@ flask run --host=0.0.0.0</code></pre>
             hash: true,
             slideNumber: true,
             transition: 'slide',
-            transitionSpeed: 'fast',
-            backgroundTransition: 'fade'
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+            center: true,
+            width: 1280,
+            height: 720,
+            margin: 0.04,
+            minScale: 0.2,
+            maxScale: 1.5
         });
     </script>
 </body>
