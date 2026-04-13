@@ -2,7 +2,7 @@
 
 ## Design Goal
 
-Keep the system small enough to finish for school, but structured enough to justify a microservice-oriented design.
+Keep the system small enough to finish for school, but structured enough to justify a microservice-inspired modular design.
 
 ## Service Boundaries
 
@@ -41,7 +41,7 @@ Keep the system small enough to finish for school, but structured enough to just
 
 - The project remains understandable during a short presentation.
 - Each module has one clear responsibility.
-- The architecture can be shown as separate services even if they run in one repository on one Ubuntu VM.
+- The architecture can be explained as separate service modules even though they run inside one repository and one deployable Flask app.
 - It supports the class discussion around modularity, maintainability, and deployment.
 
 ## Planned Runtime Model
