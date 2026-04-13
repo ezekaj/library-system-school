@@ -5,7 +5,7 @@ from __future__ import annotations
 from sqlalchemy.orm import Session
 
 from services.auth_service.models import User
-from services.auth_service.repository import add_user, get_user_by_email
+from services.auth_service.repository import add_user, get_user_by_email, get_user_by_id
 from shared.security import hash_password, verify_password
 
 
@@ -30,3 +30,7 @@ def authenticate_admin(session: Session, email: str, password: str) -> User | No
     if not verify_password(user.password_hash, password):
         return None
     return user
+
+
+def get_authenticated_user(session: Session, user_id: int) -> User | None:
+    return get_user_by_id(session, user_id)
