@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System - Seminar Presentation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/theme/white.css">
+    <style>
+        :root {
+            --r-main-font-size: 28px;
+            --r-heading-font-size: 48px;
+            --r-heading1-font-size: 64px;
+        }
+        
+        .reveal h1 { font-size: 2.2em; }
+        .reveal h2 { font-size: 1.6em; }
+        .reveal h3 { font-size: 1.3em; }
+        
+        .reveal table {
+            font-size: 0.6em;
+            border-collapse: collapse;
+        }
+        
+        .reveal table th, .reveal table td {
+            padding: 12px;
+            border: 1px solid #333;
+        }
+        
+        .reveal table th {
+            background: #f4f4f4;
+            font-weight: bold;
+        }
+        
+        .reveal pre {
+            font-size: 0.5em;
+            box-shadow: none;
+        }
+        
+        .reveal code {
+            font-size: 0.8em;
+        }
+        
+        .reveal ul {
+            font-size: 0.8em;
+        }
+        
+        .reveal ul li {
+            margin-bottom: 12px;
+        }
+        
+        .diagram {
+            font-family: monospace;
+            font-size: 0.5em;
+            background: #f8f8f8;
+            padding: 20px;
+            border-radius: 8px;
+            line-height: 1.4;
+        }
+        
+        .checkmark {
+            color: #2ecc71;
+            font-weight: bold;
+        }
+        
+        .subtitle {
+            font-size: 0.7em;
+            color: #666;
+            margin-top: 20px;
+        }
+        
+        video {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .video-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .video-box {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .video-box p {
+            font-size: 0.5em;
+            margin-top: 10px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            
+            <!-- Slide 1: Title -->
+            <section>
+                <h1>Library Management System</h1>
+                <h3>Using Flask, SQLite, and Ubuntu VM</h3>
+                <p class="subtitle">School Seminar Presentation</p>
+            </section>
+            
+            <!-- Slide 2: Problem Statement -->
+            <section>
+                <h2>The Problem</h2>
+                <ul>
+                    <li>Manual book tracking is slow and error-prone</li>
+                    <li>Libraries need a simple way to manage books and loans</li>
+                    <li>Existing systems are often too complex for small libraries</li>
+                </ul>
+                <p style="margin-top: 30px;"><strong>Goal:</strong> Create a minimal, practical digital system for library administration</p>
+            </section>
+            
+            <!-- Slide 3: Technologies Used -->
+            <section>
+                <h2>Tech Stack</h2>
+                <table>
+                    <tr>
+                        <th>Layer</th>
+                        <th>Technology</th>
+                    </tr>
+                    <tr>
+                        <td>Language</td>
+                        <td>Python 3</td>
+                    </tr>
+                    <tr>
+                        <td>Framework</td>
+                        <td>Flask</td>
+                    </tr>
+                    <tr>
+                        <td>Templates</td>
+                        <td>Jinja2</td>
+                    </tr>
+                    <tr>
+                        <td>Database</td>
+                        <td>SQLite</td>
+                    </tr>
+                    <tr>
+                        <td>Deployment</td>
+                        <td>VirtualBox + Ubuntu</td>
+                    </tr>
+                </table>
+            </section>
+            
+            <!-- Slide 4: Modular Service Structure -->
+            <section>
+                <h2>Modular Architecture</h2>
+                <p style="font-size: 0.7em; color: #e74c3c; font-weight: bold;">Not Microservices — Modular Monolith</p>
+                <pre><code class="language-text">
+├── auth_service/          # Admin login & authentication
+├── catalog_service/       # Book management
+├── circulation_service/   # Issue & return flows
+└── web_app/               # UI & request handling
+                </code></pre>
+                <p style="font-size: 0.6em; margin-top: 20px;"><strong>Key Point:</strong> All modules run in <em>one Flask deployment</em> — keeps the project simple and practical for demonstration</p>
+            </section>
+            
+            <!-- Slide 5: System Architecture -->
+            <section>
+                <h2>System Architecture</h2>
+                <div class="diagram">
+┌─────────────┐
+│   Browser   │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────────────────┐
+│    Flask Web App        │
+│  (Thin request layer)   │
+└───┬──────┬──────┬───────┘
+    │      │      │
+    ▼      ▼      ▼
+┌──────┐┌─────┐┌────────────┐
+│ Auth ││Catalog││Circulation │
+│Service││Service││ Service    │
+└──┬───┘└──┬──┘└─────┬──────┘
+   │       │         │
+   └───────┴─────────┘
+           │
+           ▼
+    ┌─────────────┐
+    │   SQLite    │
+    │  Database   │
+    └─────────────┘
+                </div>
+            </section>
+            
+            <!-- Slide 6: Database Design -->
+            <section>
+                <h2>Database Design</h2>
+                <p style="font-size: 0.8em;">Three Core Tables:</p>
+                <ul style="font-size: 0.7em;">
+                    <li><strong>users</strong> — Admin accounts for system access</li>
+                    <li><strong>books</strong> — Title, author, ISBN, total copies, available copies</li>
+                    <li><strong>loans</strong> — Tracks issued and returned books with borrower info</li>
+                </ul>
+                <pre style="font-size: 0.45em;"><code class="language-text">
+users ──┐
+        │
+books ──┼── loans
+        │
+        └── (relationships via foreign keys)
+                </code></pre>
+                <p style="font-size: 0.5em; color: #666;">See <code>docs/erd/library-system-erd.md</code> for full ERD</p>
+            </section>
+            
+            <!-- Slide 7: Main Features -->
+            <section>
+                <h2>Main Features</h2>
+                <ul style="list-style: none;">
+                    <li><span class="checkmark">✓</span> <strong>Admin Login</strong> — Secure authentication</li>
+                    <li><span class="checkmark">✓</span> <strong>Add Books</strong> — Expand the catalog</li>
+                    <li><span class="checkmark">✓</span> <strong>View All Books</strong> — Browse with availability status</li>
+                    <li><span class="checkmark">✓</span> <strong>Issue a Book</strong> — Assign to borrower, auto-decrement inventory</li>
+                    <li><span class="checkmark">✓</span> <strong>Return a Book</strong> — Restore availability, update loan status</li>
+                </ul>
+            </section>
+            
+            <!-- Slide 8: Deployment -->
+            <section>
+                <h2>Ubuntu VM Deployment</h2>
+                <pre><code class="language-bash"># 1. Clone the repository
+git clone &lt;repo-url&gt;
+
+# 2. Set up virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Seed demo data
+python scripts/seed_data.py
+
+# 5. Run the application
+flask run --host=0.0.0.0</code></pre>
+                <p style="font-size: 0.5em; margin-top: 15px;"><strong>One-step bootstrap:</strong> <code>scripts/bootstrap_ubuntu.sh</code></p>
+            </section>
+            
+            <!-- Slide 9: Demonstration -->
+            <section>
+                <h2>Live Demonstration</h2>
+                <p style="font-size: 0.7em; margin-bottom: 20px;">Screen recordings captured from Ubuntu VM:</p>
+                <div class="video-container">
+                    <div class="video-box">
+                        <video controls>
+                            <source src="demo-auth-catalog.mov" type="video/quicktime">
+                            Your browser does not support the video tag.
+                        </video>
+                        <p><strong>Video 1:</strong> Authentication & Catalog</p>
+                    </div>
+                    <div class="video-box">
+                        <video controls>
+                            <source src="demo-circulation.mov" type="video/quicktime">
+                            Your browser does not support the video tag.
+                        </video>
+                        <p><strong>Video 2:</strong> Circulation (Issue & Return)</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Slide 10: Problems & Fixes -->
+            <section>
+                <h2>Challenges & Fixes</h2>
+                <table>
+                    <tr>
+                        <th>Problem</th>
+                        <th>Fix</th>
+                    </tr>
+                    <tr>
+                        <td>Missing Python packages</td>
+                        <td>Installed via <code>requirements.txt</code></td>
+                    </tr>
+                    <tr>
+                        <td>Virtual environment setup on Ubuntu</td>
+                        <td>Used <code>python3-venv</code> package</td>
+                    </tr>
+                    <tr>
+                        <td>Incorrect static asset endpoint</td>
+                        <td>Fixed Flask routing for CSS/JS files</td>
+                    </tr>
+                    <tr>
+                        <td>Seed script usability</td>
+                        <td>Made it runnable standalone from CLI</td>
+                    </tr>
+                </table>
+            </section>
+            
+            <!-- Slide 11: Conclusion -->
+            <section>
+                <h2>Summary</h2>
+                <ul style="list-style: none;">
+                    <li><span class="checkmark">✓</span> System works end-to-end</li>
+                    <li><span class="checkmark">✓</span> Modular architecture, easy to explain and extend</li>
+                    <li><span class="checkmark">✓</span> Simple enough to deploy inside a VM</li>
+                </ul>
+                <h3 style="margin-top: 30px;">Future Improvements</h3>
+                <ul style="font-size: 0.7em;">
+                    <li>Student accounts and user roles</li>
+                    <li>Search and filtering</li>
+                    <li>Overdue tracking and notifications</li>
+                    <li>Email reminders</li>
+                </ul>
+                <h2 style="margin-top: 40px; color: #2ecc71;">Thank you!</h2>
+                <p style="font-size: 0.7em;">Questions?</p>
+            </section>
+            
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide',
+            transitionSpeed: 'fast',
+            backgroundTransition: 'fade'
+        });
+    </script>
+</body>
+</html>
